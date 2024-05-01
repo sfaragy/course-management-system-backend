@@ -1,6 +1,6 @@
 # How to run the project
 1. Clone the repo or extract the content
-2. Run the project in linux:
+2. Run the project in linux / Mac:
    1. Install make if it is not installed in your system:
       1. Ubuntu: 
       ```
@@ -10,6 +10,10 @@
       2. CentOs:
       ```
       yum install make
+      ```
+      3. MacOs
+      ```
+      brew install make
       ```
    2. Run the following command to build images & start project:
       1. Build images: 

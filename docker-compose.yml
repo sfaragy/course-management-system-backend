@@ -5,34 +5,39 @@ services:
     image: postgres
     restart: unless-stopped
     env_file: ./.env
+    networks:
+      - minden-network
     environment:
       - POSTGRES_USER=$PG_USER
       - POSTGRES_PASSWORD=$PG_ROOT_PASSWORD
       - POSTGRES_DB=$PG_DATABASE
     ports:
-      - ${PG_LOCAL_PORT}:${PG_DOCKER_PORT}
+      - "5432:5432"
     volumes:
-      - db:/var/lib/postgres
+      - postgres_data:/var/lib/postgresql/data
+
   app:
     depends_on:
       - postgresdb
     build: .
     restart: on-failure
     env_file: ./.env
+    networks:
+      - minden-network
     ports:
-      - ${APP_LOCAL_PORT}:${APP_DOCKER_PORT}
+      - "${APP_LOCAL_PORT}:${APP_DOCKER_PORT}"
     environment:
-      SPRING_APPLICATION_JSON: '{
-        "spring.datasource.url"  : "jdbc:postgresql://postgresdb:$PG_DOCKER_PORT/$PG_DATABASE",
-        "spring.datasource.username" : "$PG_USER",
-        "spring.datasource.password" : "$PG_ROOT_PASSWORD",
-        "spring.jpa.properties.hibernate.dialect" : "org.hibernate.dialect.PostgreSQLDialect",
-        "spring.jpa.hibernate.ddl-auto" : "update"
-      }'
+      - db-url=jdbc:postgresql://localhost:5432/$PG_DATABASE
+      - db-user=$PG_USER
+      - db-password=$PG_ROOT_PASSWORD
     volumes:
       - .m2:/root/.m2
     stdin_open: true
     tty: true
 
+networks:
+  minden-network:
+    driver: bridge
+
 volumes:
-  db:
+  postgres_data:

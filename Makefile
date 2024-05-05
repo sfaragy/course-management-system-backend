@@ -11,3 +11,10 @@ start: stop
 
 remove-image:
 	docker-compose down --rmi all
+
+run:
+	@echo `mvn spring-boot:run -X`
+
+clean:
+	@echo `mvn dependency:purge-local-repository`
+

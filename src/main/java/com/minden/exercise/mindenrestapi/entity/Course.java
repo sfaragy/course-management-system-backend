@@ -1,9 +1,12 @@
 package com.minden.exercise.mindenrestapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 
 @Getter
@@ -12,6 +15,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "courses")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,8 +36,4 @@ public class Course {
 
     @Column(name = "date_updated")
     private Date dateUpdated;
-
-    @ManyToMany(mappedBy = "course")
-    private Set<CourseRegistration> registrations;
-
 }

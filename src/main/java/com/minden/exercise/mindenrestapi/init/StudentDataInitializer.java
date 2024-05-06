@@ -30,7 +30,7 @@ public class StudentDataInitializer implements CommandLineRunner
                 Student student = new Student();
                 student.setStudentEmail("student " + i + "@minden-rest-api.com");
                 student.setStudentName("Student " + i);
-                student.setStatus(true);
+                student.setStatus(1);
                 student.setDateCreated(dateToday);
                 student.setDateUpdated(dateToday);
 

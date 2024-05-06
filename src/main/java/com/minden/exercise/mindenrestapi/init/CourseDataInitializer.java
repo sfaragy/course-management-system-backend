@@ -28,7 +28,7 @@ public class CourseDataInitializer implements CommandLineRunner {
                 Course course = new Course();
                 course.setCourseName("Course " + i);
                 course.setCredit(100 + i);
-                course.setStatus(true);
+                course.setStatus(1);
                 course.setDateCreated(dateToday);
                 course.setDateUpdated(dateToday);
 

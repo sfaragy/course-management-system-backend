@@ -17,7 +17,7 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "course_name", nullable = false)
+    @Column(name = "course_name", nullable = false, unique = true)
     private String courseName;
 
     // No need for now the Column definition migration. columnDefinition = "INTEGER USING CAST(credit AS INTEGER)"

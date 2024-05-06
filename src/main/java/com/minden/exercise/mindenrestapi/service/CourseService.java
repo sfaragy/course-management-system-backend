@@ -15,4 +15,14 @@ public class CourseService {
     public List<Course> getAllCourses() {
         return (List<Course>) courseRepository.findAll();
     }
+
+    public Course getCourseByName(String name) {
+        List<Course> courses = courseRepository.findByCourseName(name);
+
+        if (!courses.isEmpty()) {
+            return courses.get(1);
+        } else {
+            return null;
+        }
+    }
 }

@@ -1,5 +1,6 @@
 package com.minden.exercise.mindenrestapi.entity;
 
+import com.minden.exercise.mindenrestapi.repository.StudentRepository;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -7,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -26,12 +28,15 @@ public class Student {
     @Column(name = "student_name")
     private String studentName;
 
-    @Column(name = "status", columnDefinition = "boolean default false")
-    private Boolean status;
+    @Column(name = "status", columnDefinition = "integer default 0")
+    private Integer status;
 
     @Column(name = "date_created")
     private Date dateCreated;
 
     @Column(name = "date_updated")
     private Date dateUpdated;
+
+    @ManyToMany(mappedBy = "student")
+    private Set<CourseRegistration> registrations;
 }

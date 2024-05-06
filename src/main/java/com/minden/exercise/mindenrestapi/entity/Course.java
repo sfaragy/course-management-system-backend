@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.util.Date;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -19,16 +20,20 @@ public class Course {
     @Column(name = "course_name", nullable = false)
     private String courseName;
 
-    @Column(name = "credit", columnDefinition = "INTEGER USING CAST(credit AS INTEGER)")
+    // No need for now the Column definition migration. columnDefinition = "INTEGER USING CAST(credit AS INTEGER)"
+    @Column(name = "credit")
     private Integer credit;
 
-    @Column(name = "status")
-    private Boolean status;
+    @Column(name = "status", columnDefinition = "integer default 0")
+    private Integer status;
 
     @Column(name = "date_created")
     private Date dateCreated;
 
     @Column(name = "date_updated")
     private Date dateUpdated;
+
+    @ManyToMany(mappedBy = "course")
+    private Set<CourseRegistration> registrations;
 
 }

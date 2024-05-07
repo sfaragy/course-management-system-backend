@@ -1,7 +1,7 @@
 package com.minden.exercise.mindenrestapi.controller;
 
 import com.minden.exercise.mindenrestapi.dto.ClassmatesDTO;
-import com.minden.exercise.mindenrestapi.entity.CourseRegistration;
+import com.minden.exercise.mindenrestapi.dto.CoursesDTO;
 import com.minden.exercise.mindenrestapi.entity.Student;
 import com.minden.exercise.mindenrestapi.service.CourseRegistrationService;
 import com.minden.exercise.mindenrestapi.service.StudentService;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/minden-api/v1/student")
@@ -31,16 +30,19 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}")
-    public ResponseEntity<Student> getStudentById(@PathVariable Long studentId) {
-        Optional<Student> studentOptional = studentService.getStudentById(studentId);
-        return studentOptional
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<List<Student>> getStudentById(@PathVariable Integer studentId) {
+        List<Student> student = studentService.getStudentById(studentId);
+
+        if(student.isEmpty()){
+            return ResponseEntity.ok(null);
+        }
+
+        return ResponseEntity.ok(student);
     }
 
     @GetMapping("/{studentId}/courses")
-    public ResponseEntity<List<CourseRegistration>> getStudentCoursesById(@PathVariable Long studentId) {
-        List<CourseRegistration> studentCourses = studentService.getStudentCoursesById(studentId);
+    public ResponseEntity<List<CoursesDTO>> getStudentCoursesById(@PathVariable Long studentId) {
+        List<CoursesDTO> studentCourses = studentService.getStudentCoursesById(studentId);
         return ResponseEntity.ok(studentCourses);
     }
 

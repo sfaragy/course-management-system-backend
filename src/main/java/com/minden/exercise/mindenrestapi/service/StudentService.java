@@ -1,5 +1,6 @@
 package com.minden.exercise.mindenrestapi.service;
 
+import com.minden.exercise.mindenrestapi.dto.CoursesDTO;
 import com.minden.exercise.mindenrestapi.entity.CourseRegistration;
 import com.minden.exercise.mindenrestapi.entity.Student;
 import com.minden.exercise.mindenrestapi.repository.CourseRegistrationRepository;
@@ -8,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -22,8 +23,8 @@ public class StudentService {
         return (List<Student>) studentRepository.findAll();
     }
 
-    public Optional<Student> getStudentById(Long id) {
-        return (Optional<Student>) studentRepository.findById(id);
+    public List<Student> getStudentById(Integer id) {
+        return studentRepository.findById(id);
     }
 
     @Autowired
@@ -31,7 +32,16 @@ public class StudentService {
         this.courseRegistrationRepository = courseRegistrationRepository;
     }
 
-    public List<CourseRegistration> getStudentCoursesById(Long studentId) {
-        return courseRegistrationRepository.findByStudentId(studentId);
+    public List<CoursesDTO> getStudentCoursesById(Long studentId) {
+        List<CourseRegistration> courses = courseRegistrationRepository.findByStudentId(studentId);
+        return courses.stream()
+                .map(courseRegistration -> new CoursesDTO(
+                        courseRegistration.getId(),
+                        courseRegistration.getCourse().getId(),
+                        courseRegistration.getCourse().getCourseName(),
+                        courseRegistration.getStatus(),
+                        courseRegistration.getRegistrationDate()
+                ))
+                .collect(Collectors.toList());
     }
 }

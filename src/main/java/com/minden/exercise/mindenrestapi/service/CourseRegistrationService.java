@@ -90,15 +90,11 @@ public class CourseRegistrationService {
             courseId, studentId, StudentsCourseStatusEnum.ACTIVE
         );
 
-//        return  (List<Student>) studentRepository.findAllById(studentIds);
-
         Iterable<Student> classmatesIterable = studentRepository.findAllById(studentIds);
 
-        // Convert Iterable<Student> to List<Student> (if needed)
         List<Student> classmates = new ArrayList<>();
         classmatesIterable.forEach(classmates::add);
 
-        // Map Student entities to StudentDTO objects
         List<ClassmatesDTO> classmatesDTO = new ArrayList<>();
         for (Student student : classmates) {
             ClassmatesDTO studentDTO = new ClassmatesDTO(student.getId(), student.getStudentName(), student.getStudentEmail());

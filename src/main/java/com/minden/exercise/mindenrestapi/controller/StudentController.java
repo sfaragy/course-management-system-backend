@@ -1,5 +1,6 @@
 package com.minden.exercise.mindenrestapi.controller;
 
+import com.minden.exercise.mindenrestapi.dto.ClassmatesDTO;
 import com.minden.exercise.mindenrestapi.entity.CourseRegistration;
 import com.minden.exercise.mindenrestapi.entity.Student;
 import com.minden.exercise.mindenrestapi.service.CourseRegistrationService;
@@ -54,10 +55,8 @@ public class StudentController {
     }
 
     @GetMapping("/{studentId}/classmates/{courseId}")
-    public ResponseEntity<List<Student>> getClassmatesByCourseId(@PathVariable Long studentId, @PathVariable Long courseId) {
-        List<Student> students = courseRegistrationService.getClassmatesByCourseId(courseId, studentId);
+    public ResponseEntity<List<ClassmatesDTO>> getClassmatesByCourseId(@PathVariable Long studentId, @PathVariable Long courseId) {
+        List<ClassmatesDTO> students = courseRegistrationService.getClassmatesByCourseId(courseId, studentId);
         return ResponseEntity.ok(students);
     }
-
-
 }

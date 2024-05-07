@@ -1,5 +1,6 @@
 package com.minden.exercise.mindenrestapi.service;
 
+import com.minden.exercise.mindenrestapi.dto.ClassmatesDTO;
 import com.minden.exercise.mindenrestapi.dto.CourseRegistrationDto;
 import com.minden.exercise.mindenrestapi.entity.Course;
 import com.minden.exercise.mindenrestapi.entity.CourseRegistration;
@@ -13,6 +14,7 @@ import lombok.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -83,11 +85,26 @@ public class CourseRegistrationService {
         return false;
     }
 
-    public List<Student> getClassmatesByCourseId(@NonNull Long courseId, @NonNull Long studentId) {
+    public List<ClassmatesDTO> getClassmatesByCourseId(@NonNull Long courseId, @NonNull Long studentId) {
         List<Long> studentIds = courseRegistrationRepository.findStudentIdsByCourseIdAndStatus(
             courseId, studentId, StudentsCourseStatusEnum.ACTIVE
         );
 
-        return  (List<Student>) studentRepository.findAllById(studentIds);
+//        return  (List<Student>) studentRepository.findAllById(studentIds);
+
+        Iterable<Student> classmatesIterable = studentRepository.findAllById(studentIds);
+
+        // Convert Iterable<Student> to List<Student> (if needed)
+        List<Student> classmates = new ArrayList<>();
+        classmatesIterable.forEach(classmates::add);
+
+        // Map Student entities to StudentDTO objects
+        List<ClassmatesDTO> classmatesDTO = new ArrayList<>();
+        for (Student student : classmates) {
+            ClassmatesDTO studentDTO = new ClassmatesDTO(student.getId(), student.getStudentName(), student.getStudentEmail());
+            classmatesDTO.add(studentDTO);
+        }
+
+        return classmatesDTO;
     }
 }

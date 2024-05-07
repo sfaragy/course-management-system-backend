@@ -82,4 +82,12 @@ public class CourseRegistrationService {
 
         return false;
     }
+
+    public List<Student> getClassmatesByCourseId(@NonNull Long courseId, @NonNull Long studentId) {
+        List<Long> studentIds = courseRegistrationRepository.findStudentIdsByCourseIdAndStatus(
+            courseId, studentId, StudentsCourseStatusEnum.ACTIVE
+        );
+
+        return  (List<Student>) studentRepository.findAllById(studentIds);
+    }
 }

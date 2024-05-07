@@ -53,5 +53,11 @@ public class StudentController {
 
     }
 
+    @GetMapping("/{studentId}/classmates/{courseId}")
+    public ResponseEntity<List<Student>> getClassmatesByCourseId(@PathVariable Long studentId, @PathVariable Long courseId) {
+        List<Student> students = courseRegistrationService.getClassmatesByCourseId(courseId, studentId);
+        return ResponseEntity.ok(students);
+    }
+
 
 }

@@ -19,4 +19,8 @@ public interface CourseRegistrationRepository extends CrudRepository<CourseRegis
 
     @Query("SELECT cr.id FROM CourseRegistration cr WHERE cr.course.id = :courseId AND cr.student.id = :studentId AND cr.status = :status")
     List<Long> findIdsByCourseIdAndStudentIdAndStatus(Long courseId, Long studentId, StudentsCourseStatusEnum status);
+
+
+    @Query("SELECT cr.student.id FROM CourseRegistration cr WHERE cr.course.id = :courseId AND cr.status = :status AND cr.student.id != :studentId")
+    List<Long> findStudentIdsByCourseIdAndStatus(Long courseId, Long studentId, StudentsCourseStatusEnum status);
 }

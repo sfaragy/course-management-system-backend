@@ -28,7 +28,7 @@ public class StudentDataInitializer implements CommandLineRunner
             for (int i = 1; i <= 100; i++) {
                 Date dateToday = new Date();
                 Student student = new Student();
-                student.setStudentEmail("student " + i + "@minden-rest-api.com");
+                student.setStudentEmail("student" + i + "@minden-rest-api.com");
                 student.setStudentName("Student " + i);
                 student.setStatus(1);
                 student.setDateCreated(dateToday);

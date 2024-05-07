@@ -1,6 +1,8 @@
 package com.minden.exercise.mindenrestapi.entity;
 
-import com.minden.exercise.mindenrestapi.repository.StudentRepository;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 @Setter
 @Getter
@@ -16,6 +18,7 @@ import java.util.Set;
 @AllArgsConstructor
 @Entity
 @Table(name = "students")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class Student {
 
     @Id
@@ -37,6 +40,7 @@ public class Student {
     @Column(name = "date_updated")
     private Date dateUpdated;
 
-    @ManyToMany(mappedBy = "student")
-    private Set<CourseRegistration> registrations;
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private List<CourseRegistration> course_registrations;
 }

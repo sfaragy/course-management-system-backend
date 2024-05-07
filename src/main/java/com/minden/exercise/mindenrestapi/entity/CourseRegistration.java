@@ -1,11 +1,10 @@
 package com.minden.exercise.mindenrestapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import com.minden.exercise.mindenrestapi.enums.StudentsCourseStatusEnum;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
@@ -14,7 +13,8 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "course_registration")
+@Table(name = "course_registrations")
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
 public class CourseRegistration {
 
     @Id
@@ -22,11 +22,11 @@ public class CourseRegistration {
     private Long id;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
+    @JoinColumn(name = "student_id")
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "course_id", referencedColumnName = "id")
+    @JoinColumn(name = "course_id")
     private Course course;
 
     @Column(name = "registration_date")
@@ -35,5 +35,4 @@ public class CourseRegistration {
     @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private StudentsCourseStatusEnum status;
-
 }
